@@ -73,7 +73,7 @@ final class Theme: AppTheme {
     
     static let shared = Theme()
     
-    private(set) var theme: AppTheme = LightTheme() //DarkTheme()
+    private(set) var theme: AppTheme = LightTheme() 
     
     private var subscribers: [ThemeSubscriber] = []
     
@@ -91,7 +91,7 @@ final class Theme: AppTheme {
 extension Theme {
     
     func update() {
-        switch UserDefaultsManager.shared.themeName {
+       switch UserDefaultsManager.shared.themeName {
         case ThemeName.light.rawValue:
             theme = LightTheme()
         case ThemeName.dark.rawValue:

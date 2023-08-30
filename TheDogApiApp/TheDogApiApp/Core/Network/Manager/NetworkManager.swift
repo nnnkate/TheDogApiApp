@@ -17,13 +17,15 @@ protocol NetworkManagerProtocol {
 
 final class NetworkManager {
     
+    private let url: String = "https://api.thecatapi.com/v1/"
+    
 }
 
 // MARK: - Fetch
-extension NetworkManager {
+private extension NetworkManager {
     
-    private func fetchData(urlString: String,
-                           completion: @escaping (Data?, Error?) -> ()) {
+    func fetchData(urlString: String,
+                   completion: @escaping (Data?, Error?) -> ()) {
         guard let url = URL(string: urlString) else {
             let error = NSError(domain: NSURLErrorDomain, code: NSURLErrorBadURL)
             completion(nil, error)
@@ -52,7 +54,7 @@ extension NetworkManager: NetworkManagerProtocol {
     
     func loadData(page: Int,
                   completion: @escaping ([BreedResponse]?, Error?) -> ()) {
-        let urlString = "https://api.thecatapi.com/v1/breeds?limit=10&page=\(page)"
+        let urlString = "\(url)breeds?limit=10&page=\(page)"
         fetchData(urlString: urlString) { data, error in
             if let error = error {
                 completion(nil, error)
@@ -72,7 +74,7 @@ extension NetworkManager: NetworkManagerProtocol {
         
     func loadImage(id: String,
                   completion: @escaping (BreedImgResponse?, Error?) -> ()) {
-        let urlString = "https://api.thecatapi.com/v1/images/\(id)"
+        let urlString = "\(url)images/\(id)"
         fetchData(urlString: urlString) { data, error in
             if let error = error {
                 completion(nil, error)

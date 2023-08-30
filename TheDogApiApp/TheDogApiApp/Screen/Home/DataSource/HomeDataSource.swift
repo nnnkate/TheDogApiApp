@@ -12,6 +12,19 @@ protocol BreedDelegate: AnyObject {
     func loadNextPage()
 }
 
+// MARK: - Update
+extension HomeDataSource: BreedModelSubscriber {
+   
+    func notify(imageId: String?) {
+        if let index = items.firstIndex(where: { ($0 as? BreedModel)?.imageId == imageId }) {
+            if let cell = collectionView.cellForItem(at: IndexPath(row: index ?? 0, section: 0)) as? BreedCell, let model = items[index] as? BreedModel {
+                cell.update()
+            }
+        }
+    }
+    
+}
+
 final class HomeDataSource: BaseCollectionViewDataSource<AnyObject, BaseCollectionViewCellItem> {
     
     // - Data
@@ -21,6 +34,11 @@ final class HomeDataSource: BaseCollectionViewDataSource<AnyObject, BaseCollecti
     weak var breedDelegate: BreedDelegate?
     
     func reloadData(items: [BaseCollectionViewCellItem] = [], isResultLoaded: Bool) {
+        items.forEach {
+            if let item = $0 as? BreedModel {
+                item.subscriber = self
+            }
+        }
         super.reloadData(items: items)
         self.isResultLoaded = isResultLoaded
     }
@@ -56,6 +74,9 @@ final class HomeDataSource: BaseCollectionViewDataSource<AnyObject, BaseCollecti
     
     // - UICollectionViewDelegate
     override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+//        if let cell = cell as? BreedCell {
+//            cell.update()
+//        }
         if isResultLoaded {
             return
         }
@@ -79,7 +100,7 @@ private extension HomeDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BreedCell.reuseID, for: indexPath) as? BreedCell ?? BreedCell()
         cell.set(model: items[indexPath.row] as? BreedModel)
         cell.touchAction = { [weak self] model in
-            
+            self?.breedDelegate?.didSelectModel(model)
         }
         return cell
     }

@@ -8,7 +8,7 @@
 import UIKit
 
 protocol BreedModelSubscriber {
-    func notify()
+    func notify(imageId: String?)
 }
 
 final class BreedModel: BaseCollectionViewCellItem {
@@ -33,7 +33,7 @@ extension BreedModel {
     
     func set(image: UIImage?) {
         self.image = image
-        subscriber?.notify()
+        subscriber?.notify(imageId: imageId)
     }
     
 }

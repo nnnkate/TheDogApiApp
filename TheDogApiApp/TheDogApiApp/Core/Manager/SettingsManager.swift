@@ -11,10 +11,10 @@ final class SettingsManager {
    
     static let shared = SettingsManager()
     
-    private(set) var currentThemeName: ThemeName = ThemeName(rawValue: UserDefaultsManager.shared.themeName) ?? .light
+    private(set) var currentThemeName: ThemeName = ThemeName(rawValue: UserDefaultsManager.shared.themeName) ?? .system
             
     private init() {
-        
+        update()
     }
         
 }
@@ -23,9 +23,18 @@ final class SettingsManager {
 extension SettingsManager {
     
     func set(currentThemeName: ThemeName?) {
-        let name = currentThemeName ?? ThemeName.light
-        UserDefaultsManager.shared.themeName = name.rawValue
+        let name = currentThemeName ?? ThemeName.system
         self.currentThemeName = name
+        UserDefaultsManager.shared.themeName = name.rawValue
+        update()
+    }
+    
+}
+
+// MARK: - Update
+private extension SettingsManager {
+    
+    func update() {
         Theme.shared.update()
     }
     

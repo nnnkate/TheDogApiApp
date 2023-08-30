@@ -25,11 +25,12 @@ final class BreedCell: UICollectionViewCell {
     private lazy var imageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
+//        imageView.layer.opacity = 0
         return imageView
     }()
     private lazy var label = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 14)
+        label.font = .systemFont(ofSize: 12)
         label.numberOfLines = 1
         return label
     }()
@@ -64,37 +65,19 @@ final class BreedCell: UICollectionViewCell {
 extension BreedCell {
     
     func set(model: BreedModel?) {
-        model?.subscriber = self
         self.model = model
         label.text = model?.title
-        setImage()
+        update()
         updateUI()
     }
     
-    private func setImage() {
-        let image = model?.image
-        imageView.image = image
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-            guard let self else { return }
-            UIView.animate(withDuration: 0.3) {
-                self.imageView.isHidden = image == nil
-            }
-            if image != nil  {
-                self.loader.stopAnimating()
-            } else {
-                self.loader.startAnimating()
+    func update() {
+        imageView.image = model?.image
+        if model?.image != nil {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+                self?.loader.stopAnimating()
             }
         }
-        
-    }
-    
-}
-
-// MARK: - Update
-extension BreedCell: BreedModelSubscriber {
-   
-    func notify() {
-        setImage()
     }
     
 }
@@ -125,13 +108,12 @@ private extension BreedCell {
         configureUI()
         addSubviews()
         makeConstraints()
-        loader.startAnimating()
     }
     
     func configureUI() {
-        imageView.isHidden = true
         clipsToBounds = false
         contentView.clipsToBounds = false
+        loader.startAnimating()
     }
     
     func addSubviews() {
@@ -151,16 +133,17 @@ private extension BreedCell {
         }
         
         imageView.snp.makeConstraints {
-            $0.top.equalTo(10)
-            $0.trailing.equalTo(-20)
-            $0.leading.equalTo(20)
-            $0.bottom.equalTo(label.snp.top).offset(-10)
+            $0.top.equalTo(15)
+            $0.width.equalTo(mainView.snp.width).multipliedBy(0.8)
+            $0.height.equalTo(mainView.snp.width).multipliedBy(0.7)
+            $0.centerX.equalToSuperview()
+            $0.bottom.lessThanOrEqualTo(label.snp.top).offset(-10).priority(999)
         }
         
         label.snp.makeConstraints {
             $0.bottom.equalTo(-10)
             $0.trailing.equalTo(-20)
-            $0.leading.equalTo(20)
+            $0.leading.equalTo(15)
         }
     }
     

@@ -26,6 +26,7 @@ final class HomeViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        reloadDataSourceData(items: viewModel.items, isResultLoaded: viewModel.isResultLoaded)
         updateUI()
     }
     
@@ -36,20 +37,13 @@ final class HomeViewController: BaseViewController {
         
 }
 
-// MARK: - Reload
-extension HomeViewController {
-    
-    func reloadData() {
-        reloadDataSourceData()
-    }
-    
-}
-
 // MARK: - BreedDelegate
 extension HomeViewController: BreedDelegate {
     
     func didSelectModel(_ model: BreedModel?) {
-        
+        let vc = WikiViewController()
+        vc.set(url: model?.link)
+        present(vc, animated: true)
     }
     
     func loadNextPage() {

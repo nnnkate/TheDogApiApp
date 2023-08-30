@@ -8,6 +8,8 @@
 import Foundation
 
 protocol HomeViewModelProtocol {
+    var items: [BreedModel] { get }
+    var isResultLoaded: Bool { get }
     func loadNextPage(completion: @escaping ([BreedModel], Bool) -> ())
     func loadPage(completion: @escaping ([BreedModel], Bool) -> ())
 }
