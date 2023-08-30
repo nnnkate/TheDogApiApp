@@ -35,7 +35,7 @@ final class SelectThemeDataSource: BaseTableViewDataSource<AnyObject, BaseTableV
     // - UITableViewDelegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = items[indexPath.row] as? SelectThemeModel
-        (themeDelegate as? SelectThemeDelegate)?.didSelectTheme(item?.name)
+        themeDelegate?.didSelectTheme(item?.name)
     }
     
     // - Register

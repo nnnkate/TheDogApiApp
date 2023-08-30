@@ -40,7 +40,7 @@ final class SettingsDataSource: BaseTableViewDataSource<AnyObject, BaseTableView
     // - UITableViewDelegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = items[indexPath.row] as? SettingModel
-        (settingsDelegate as? SettingsDelegate)?.didSelectSetting(item?.type)
+        settingsDelegate?.didSelectSetting(item?.type)
     }
     
     // - Update

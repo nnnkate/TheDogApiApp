@@ -17,7 +17,7 @@ extension HomeDataSource: BreedModelSubscriber {
    
     func notify(imageId: String?) {
         if let index = items.firstIndex(where: { ($0 as? BreedModel)?.imageId == imageId }) {
-            if let cell = collectionView.cellForItem(at: IndexPath(row: index ?? 0, section: 0)) as? BreedCell, let model = items[index] as? BreedModel {
+            if let cell = collectionView.cellForItem(at: IndexPath(row: index, section: 0)) as? BreedCell {
                 cell.update()
             }
         }
