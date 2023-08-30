@@ -31,6 +31,7 @@ final class SettingsViewController: BaseViewController {
     
     // BaseViewController
     override func updateUI() {
+        reloadDataSourceData()
         view.backgroundColor = Theme.shared.getColor(color: .background)
     }
     

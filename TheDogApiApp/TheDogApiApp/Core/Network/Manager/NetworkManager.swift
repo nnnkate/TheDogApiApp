@@ -5,11 +5,14 @@
 //  Created by Ekaterina Nedelko on 30.08.23.
 //
 
-import Foundation
+import UIKit
 
 protocol NetworkManagerProtocol {
     func loadData(page: Int,
                   completion: @escaping ([BreedResponse]?, Error?) -> ())
+    func loadImage(id: String,
+                  completion: @escaping (BreedImgResponse?, Error?) -> ())
+    func downloadImage(from url: URL, completion: @escaping (UIImage?) -> ())
 }
 
 final class NetworkManager {
@@ -66,6 +69,45 @@ extension NetworkManager: NetworkManagerProtocol {
             }
         }
     }
+        
+    func loadImage(id: String,
+                  completion: @escaping (BreedImgResponse?, Error?) -> ()) {
+        let urlString = "https://api.thecatapi.com/v1/images/\(id)"
+        fetchData(urlString: urlString) { data, error in
+            if let error = error {
+                completion(nil, error)
+                return
+            }
+            
+            guard let data else { return }
+            let decoder = JSONDecoder()
+            do {
+                completion(try decoder.decode(BreedImgResponse.self, from: data), nil)
+            }
+            catch let error {
+                completion(nil, error)
+            }
+        }
+    }
+        
+    func downloadImage(from url: URL, completion: @escaping (UIImage?) -> ()) {
+        getData(from: url) { data, response, error in
+            guard let data = data, error == nil else { return }
+            DispatchQueue.main.async() {
+                completion(UIImage(data: data))
+            }
+        }
+    }
     
+    private func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
+        if let http = URL(string: url.absoluteString), var comps = URLComponents(url: http, resolvingAgainstBaseURL: false) {
+            comps.scheme = "https"
+            if let url = comps.url {
+                URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
+            }
+        }
+    }
+
+
 }
 

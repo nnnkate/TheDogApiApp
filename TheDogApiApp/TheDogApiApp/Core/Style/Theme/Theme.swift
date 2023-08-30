@@ -33,22 +33,6 @@ final class LightTheme: AppTheme {
             return UIColor.light_darkPurple
         default:
             return .red
-//        case .title:
-//            return accentBlue
-//        case .subtitle:
-//            return oceanLight
-//        case .primary:
-//            return primary
-//        case .secondary:
-//            return secondary
-//        case .separator:
-//            return white
-//        case .label:
-//            return oceanLight
-//        case .view:
-//            return white
-//        case .shadow:
-//            return shadow
         }
     }
     
@@ -76,23 +60,6 @@ final class DarkTheme: AppTheme {
             return UIColor.dark_biege
         default:
             return .red
-            //        case .title:
-            //            return accentBlue
-            //        case .subtitle:
-            //            return oceanLight
-            //        case .primary:
-            //            return primary
-            //        case .secondary:
-            //            return secondary
-            //        case .separator:
-            //            return white
-            //        case .label:
-            //            return oceanLight
-            //        case .view:
-            //            return white
-            //        case .shadow:
-            //            return shadow
-            
         }
     }
     

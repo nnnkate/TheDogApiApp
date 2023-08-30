@@ -94,6 +94,7 @@ private extension SettingCell {
         label.textColor = Theme.shared.theme.getColor(color: .label)
         arrowImageView.tintColor = Theme.shared.theme.getColor(color: .tint)
         iconImageView.tintColor = Theme.shared.theme.getColor(color: .tint)
+        contentView.backgroundColor = Theme.shared.theme.getColor(color: .view)
     }
     
 }
@@ -111,7 +112,6 @@ private extension SettingCell {
         mainView.clipsToBounds = true
         selectionStyle = .none
         backgroundColor = .clear
-        contentView.backgroundColor = Theme.shared.theme.getColor(color: .view)
     }
     
     func addSubviews() {
