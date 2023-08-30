@@ -1,0 +1,10 @@
+/* 
+  Localizable.strings
+  TheDogApiApp
+
+  Created by Ekaterina Nedelko on 30.08.23.
+  
+*/
+
+// MARK: - Settings
+"theme_title" = "Appearance";
